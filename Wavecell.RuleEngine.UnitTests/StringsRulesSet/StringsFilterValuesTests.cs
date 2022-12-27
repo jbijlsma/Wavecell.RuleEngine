@@ -40,7 +40,7 @@ public class StringsFilterValuesTests
     }
 
     [Fact]
-    public void Create_SetsAllFilterValuesTo_PassedFilterValue()
+    public void Create_SetsAllFilterValues()
     {
         // Given
         const string filterValue = "AAA";

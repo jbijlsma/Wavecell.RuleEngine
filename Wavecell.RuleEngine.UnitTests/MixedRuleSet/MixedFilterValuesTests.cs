@@ -39,7 +39,7 @@ public class MixedFilterValuesTests
     }
 
     [Fact]
-    public void Create_SetsAllFilterValuesTo_PassedFilterValue()
+    public void Create_SetsAllFilterValues()
     {
         // Given
         const int intFilter = 111;
