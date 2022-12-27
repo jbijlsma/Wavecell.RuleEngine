@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wavecell.RuleEngine", "Wave
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wavecell.RuleEngine.UnitTests", "Wavecell.RuleEngine.UnitTests\Wavecell.RuleEngine.UnitTests.csproj", "{F6F4DF00-E76C-43B8-B034-07B712C20938}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wavecell.RuleEngine.Benchmarks", "Wavecell.RuleEngine.Benchmarks\Wavecell.RuleEngine.Benchmarks.csproj", "{BF92BA97-9E4E-44A2-B6ED-6084365B3171}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{F6F4DF00-E76C-43B8-B034-07B712C20938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6F4DF00-E76C-43B8-B034-07B712C20938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6F4DF00-E76C-43B8-B034-07B712C20938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF92BA97-9E4E-44A2-B6ED-6084365B3171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF92BA97-9E4E-44A2-B6ED-6084365B3171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF92BA97-9E4E-44A2-B6ED-6084365B3171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF92BA97-9E4E-44A2-B6ED-6084365B3171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
