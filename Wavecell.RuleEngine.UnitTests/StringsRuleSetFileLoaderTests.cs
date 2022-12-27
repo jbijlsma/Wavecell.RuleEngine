@@ -18,26 +18,8 @@ public class StringsRuleSetFileLoaderTests
         // Then
         var expected = new List<StringsRule>
         {
-            new()
-            { 
-                RuleId = 1,
-                Priority = 80,
-                Filter1 = "AAA", 
-                Filter2 = "<ANY>", 
-                Filter3 = "CCC", 
-                Filter4 = "DDD", 
-                OutputValue = 8
-            },
-            new()
-            { 
-                RuleId = 2,
-                Priority = 10,
-                Filter1 = "<ANY>", 
-                Filter2 = "<ANY>", 
-                Filter3 = "AAA", 
-                Filter4 = "<ANY>", 
-                OutputValue = 1
-            }
+            new(1, 80, 8, "AAA", "<ANY>", "CCC", "DDD"),
+            new(2, 10, 1, "<ANY>", "<ANY>", "AAA", "<ANY>")
         };
         actual.Should().BeEquivalentTo(expected);
     }

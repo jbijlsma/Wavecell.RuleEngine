@@ -26,17 +26,13 @@ public class StringsRuleSetFileLoader
     private static StringsRule CreateRule(string line)
     {
         var parts = line.Split(',');
-
-        return new StringsRule
-        {
-            RuleId = Convert(parts[0], int.Parse),
-            Priority = Convert(parts[1], ushort.Parse),
-            OutputValue = Convert(parts[6], value => string.IsNullOrWhiteSpace(value) ? (int?)null : int.Parse(value)),
-            Filter1 = parts[2],
-            Filter2 = parts[3],
-            Filter3 = parts[4],
-            Filter4 = parts[5]
-        };
+        
+        var ruleId = Convert(parts[0], int.Parse);
+        var priority = Convert(parts[1], ushort.Parse);
+        var outputValue = Convert(parts[6], value => string.IsNullOrWhiteSpace(value) ? (int?)null : int.Parse(value));
+        var filters = new[] { parts[2], parts[3], parts[4], parts[5] };
+        
+        return new StringsRule(ruleId, priority, outputValue, filters);
     }
 
     private static T Convert<T>(string stringValue, Func<string, T> converter)
