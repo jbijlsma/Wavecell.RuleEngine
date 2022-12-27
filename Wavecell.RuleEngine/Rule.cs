@@ -13,8 +13,7 @@ public class Rule<TFilterValues> : IRule<TFilterValues> where TFilterValues : IF
     [UsedImplicitly] public int RuleId { get; }
     public ushort Priority { get; }
     [UsedImplicitly] public int? OutputValue { [UsedImplicitly] get; }
-
-    private readonly TFilterValues _filters;
+    [UsedImplicitly] public TFilterValues Filters { get; }
 
     public Rule(int ruleId, ushort priority, int? outputValue, TFilterValues filters)
     {
@@ -22,11 +21,11 @@ public class Rule<TFilterValues> : IRule<TFilterValues> where TFilterValues : IF
         Priority = priority;
         OutputValue = outputValue;
 
-        _filters = filters;
+        Filters = filters;
     }
 
     public bool Matches(TFilterValues filterValues)
     {
-        return _filters.Matches(filterValues);
+        return Filters.Matches(filterValues);
     }
 }

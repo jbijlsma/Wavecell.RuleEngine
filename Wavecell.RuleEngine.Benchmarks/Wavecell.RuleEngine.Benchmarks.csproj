@@ -11,6 +11,9 @@
     <None Include="..\StringsRuleSet.csv" Link="StringsRuleSet.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\MixedRuleSet.csv" Link="MixedRuleSet.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
   <ItemGroup>

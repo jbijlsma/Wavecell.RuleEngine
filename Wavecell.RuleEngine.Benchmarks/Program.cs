@@ -3,4 +3,4 @@
 using BenchmarkDotNet.Running;
 using Wavecell.RuleEngine.Benchmarks;
 
-BenchmarkRunner.Run<StringsRuleEngineBenchmarks>();
+BenchmarkRunner.Run<MixedRuleEngineBenchmarks>();
