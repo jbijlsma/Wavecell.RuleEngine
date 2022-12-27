@@ -10,7 +10,7 @@ public class StringsRuleSetTests
     public void FindRule_SingleMatch_Returns_MatchingRule()
     {
         // Given
-        var filters = Enumerable.Range(0, 4).Select(_ => "AAA").ToArray(); 
+        var filters = StringsFilterValues.Create("AAA");
         
         var nonMatchingRules = Enumerable.Range(0, 5).Select(_ => CreateNonMatchingRule(filters));
 
@@ -32,7 +32,7 @@ public class StringsRuleSetTests
     public void FindRule_MultipleMatchingRules_Returns_HighestPriority()
     {
         // Given
-        var filters = Enumerable.Range(0, 4).Select(_ => "AAA").ToArray(); 
+        var filters = StringsFilterValues.Create("AAA");
         
         var lowPriorityMatchingRule = Substitute.For<IStringsRule>();
         lowPriorityMatchingRule.Priority.Returns((ushort)10);
@@ -58,7 +58,7 @@ public class StringsRuleSetTests
     public void FindRule_NoMatchingRules_Returns_Null()
     {
         // Given
-        var filters = Enumerable.Range(0, 4).Select(_ => "AAA").ToArray(); 
+        var filters = StringsFilterValues.Create("AAA"); 
 
         var nonMatchingRules = Enumerable.Range(0, 5).Select(_ => CreateNonMatchingRule(filters));
         
@@ -73,7 +73,7 @@ public class StringsRuleSetTests
         actual.Should().Be(null);
     }
 
-    private static IStringsRule CreateNonMatchingRule(string[] filterValues)
+    private static IStringsRule CreateNonMatchingRule(StringsFilterValues filterValues)
     {
         var rule = Substitute.For<IStringsRule>();
         rule.Matches(filterValues).Returns(false);

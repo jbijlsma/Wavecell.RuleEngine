@@ -9,10 +9,10 @@ namespace Wavecell.RuleEngine.Benchmarks;
 public class StringsRuleEngineBenchmarks
 {
     private static StringsRuleSetEngine? _largeSimulationEngine;
-    private static string[] _largeSimulationFilterValues = Array.Empty<string>();
+    private static StringsFilterValues? _largeSimulationFilterValues;
     
     private static StringsRuleSetEngine? _fileSimulationEngine;
-    private static string[] _fileSimulationFilterValues = Array.Empty<string>();
+    private static StringsFilterValues? _fileSimulationFilterValues;
 
     static StringsRuleEngineBenchmarks()
     {
@@ -22,20 +22,19 @@ public class StringsRuleEngineBenchmarks
 
     private static void CreateLargeSimulation()
     {
-        const int numberOfFiltersPerRule = 100;
         const int numberOfNonMatchingRules = 1000;
 
-        var filters = Enumerable.Range(0, numberOfFiltersPerRule).Select(_ => "AAA").ToArray();
-        var nonMatchingRules = Enumerable.Range(0, numberOfNonMatchingRules).Select(_ => CreateTestRule(100, filters));
+        var filters = StringsFilterValues.Create("AAA");
+        var nonMatchingRules = Enumerable.Range(0, numberOfNonMatchingRules).Select(_ => CreateTestRule(10, filters));
 
-        var anyFilters = Enumerable.Range(0, numberOfFiltersPerRule).Select(_ => "<ANY>").ToArray();
+        var anyFilters = new StringsFilterValues();
         var matchingRule = CreateTestRule(0, anyFilters);
         
         var allRules = nonMatchingRules.Concat(new [] { matchingRule });
         
         _largeSimulationEngine = new StringsRuleSetEngine(allRules);
         
-        _largeSimulationFilterValues = Enumerable.Range(0, numberOfFiltersPerRule).Select(_ => "XXX").ToArray();
+        _largeSimulationFilterValues = StringsFilterValues.Create("XXX");
     }
     
     private static void CreateFileSimulation()
@@ -44,10 +43,10 @@ public class StringsRuleEngineBenchmarks
         var loader = new RuleSetFileLoader(ruleFile);
         var rules = new StringsRuleSetFileReader(loader).Read();
         _fileSimulationEngine = new StringsRuleSetEngine(rules);
-        _fileSimulationFilterValues = Enumerable.Range(0, 4).Select(_ => "BBB").ToArray();
+        _fileSimulationFilterValues = StringsFilterValues.Create("BBB");
     }
-    
-    private static StringsRule CreateTestRule(ushort priority, params string[] filters)
+
+    private static StringsRule CreateTestRule(ushort priority, StringsFilterValues filters)
     {
         return new StringsRule(1, priority, 10, filters);
     }
@@ -58,7 +57,7 @@ public class StringsRuleEngineBenchmarks
     public void LargeSimulation_FindRule()
 #pragma warning restore CA1822
     {
-        _largeSimulationEngine!.FindRule(_largeSimulationFilterValues);
+        _largeSimulationEngine!.FindRule(_largeSimulationFilterValues!);
     }
     
     [Benchmark]
@@ -67,6 +66,6 @@ public class StringsRuleEngineBenchmarks
     public void RuleFile_FindRule()
 #pragma warning restore CA1822
     {
-        _fileSimulationEngine!.FindRule(_fileSimulationFilterValues);
+        _fileSimulationEngine!.FindRule(_fileSimulationFilterValues!);
     }
 }

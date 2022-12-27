@@ -5,38 +5,33 @@ namespace Wavecell.RuleEngine;
 public interface IStringsRule
 {
     ushort Priority { get; }
-    bool Matches(params string[] filters);
+    bool Matches(StringsFilterValues filterValues);
 }
 
 public class StringsRule : IStringsRule
 {
-    private const string AnyRule = "<ANY>";
-    
     [UsedImplicitly] public int RuleId { get; }
     public ushort Priority { get; }
     [UsedImplicitly] public int? OutputValue { [UsedImplicitly] get; }
 
-    private readonly string[] _filters;
+    private readonly StringsFilterValues _filters;
 
-    public StringsRule(int ruleId, ushort priority, int? outputValue, params string[] filters)
+    public StringsRule(int ruleId, ushort priority, int? outputValue, StringsFilterValues filterValues)
     {
         RuleId = ruleId;
         Priority = priority;
         OutputValue = outputValue;
 
-        _filters = filters;
+        _filters = filterValues;
     }
 
-    public bool Matches(params string[] filterValues)
+    public bool Matches(StringsFilterValues filterValues)
     {
-        for (var i=0; i<filterValues.Length; i++)
-        {
-            var filter = _filters[i];
-            
-            if (filter == AnyRule) continue;
-            if (filter != filterValues[i]) return false;
-        }
-        
+        if (_filters.Filter1 != null & _filters.Filter1 != filterValues.Filter1) return false;
+        if (_filters.Filter2 != null & _filters.Filter2 != filterValues.Filter2) return false;
+        if (_filters.Filter3 != null & _filters.Filter3 != filterValues.Filter3) return false;
+        if (_filters.Filter4 != null & _filters.Filter4 != filterValues.Filter4) return false;
+
         return true;
     }
 }

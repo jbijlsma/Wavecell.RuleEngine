@@ -9,7 +9,7 @@ public class StringsRuleSetEngine
         _rules = rules.OrderByDescending(rule => rule.Priority);
     }
     
-    public IStringsRule? FindRule(params string[] filterValues)
+    public IStringsRule? FindRule(StringsFilterValues filterValues)
     {
         foreach (var rule in _rules)
         {

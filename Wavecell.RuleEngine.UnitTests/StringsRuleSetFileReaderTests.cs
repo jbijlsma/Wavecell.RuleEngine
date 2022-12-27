@@ -31,8 +31,8 @@ public class StringsRuleSetFileReaderTests
         // Then
         var expected = new List<StringsRule>
         {
-            new(1, 80, 8, "AAA", "<ANY>", "CCC", "DDD"),
-            new(2, 10, 1, "<ANY>", "<ANY>", "AAA", "<ANY>")
+            new(1, 80, 8, new StringsFilterValues("AAA", null, "CCC", "DDD")),
+            new(2, 10, 1, new StringsFilterValues(null, null, "AAA"))
         };
         actual.Should().BeEquivalentTo(expected);
     }

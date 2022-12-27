@@ -9,11 +9,11 @@ public class StringsRuleTests
     public void Matches_MatchFound_Returns_True()
     {
         // Given
-        const string filterValue1 = "AAA";
-        var rule = CreateRule(filterValue1);
+        var filterValues = StringsFilterValues.Create("AAA");
+        var rule = CreateRule(filterValues);
 
         // When
-        var actual = rule.Matches(filterValue1);
+        var actual = rule.Matches(filterValues);
 
         // Then
         actual.Should().Be(true);
@@ -23,11 +23,11 @@ public class StringsRuleTests
     public void Matches_NoMatchFound_Returns_False()
     {
         // Given
-        const string filterValue1 = "AAA";
-        var rule = CreateRule(filterValue1);
+        var filterValues = StringsFilterValues.Create("AAA");
+        var rule = CreateRule(filterValues);
 
         // When
-        var actual = rule.Matches("BBB");
+        var actual = rule.Matches(StringsFilterValues.Create("BBB"));
 
         // Then
         actual.Should().Be(false);
@@ -37,18 +37,18 @@ public class StringsRuleTests
     public void Matches_AnyFilter_Ignored()
     {
         // Given
-        const string filterValue1 = "AAA";
-        var rule = CreateRule("<ANY>", filterValue1);
+        var filters = new StringsFilterValues(null, "BBB", "BBB", "BBB");
+        var rule = CreateRule(filters);
 
         // When
-        var actual = rule.Matches("BBB");
+        var actual = rule.Matches(StringsFilterValues.Create("BBB"));
 
         // Then
         actual.Should().Be(true);
     }
 
-    private static StringsRule CreateRule(params string[] filters)
+    private static StringsRule CreateRule(StringsFilterValues filterValues)
     {
-        return new StringsRule(1, 10, 1, filters);
+        return new StringsRule(1, 10, 1, filterValues);
     }
 }

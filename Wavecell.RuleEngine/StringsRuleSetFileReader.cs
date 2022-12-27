@@ -26,7 +26,7 @@ public class StringsRuleSetFileReader
         var ruleId = Convert(parts[0], int.Parse);
         var priority = Convert(parts[1], ushort.Parse);
         var outputValue = Convert(parts[6], value => string.IsNullOrWhiteSpace(value) ? (int?)null : int.Parse(value));
-        var filters = new[] { parts[2], parts[3], parts[4], parts[5] };
+        var filters = new StringsFilterValues(parts[2], parts[3], parts[4], parts[5]);
         
         return new StringsRule(ruleId, priority, outputValue, filters);
     }
