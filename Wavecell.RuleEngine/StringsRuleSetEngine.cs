@@ -9,11 +9,11 @@ public class StringsRuleSetEngine
         _rules = rules.OrderByDescending(rule => rule.Priority);
     }
     
-    public IStringsRule? FindRule(string f1, string f2, string f3, string f4)
+    public IStringsRule? FindRule(params string[] filterValues)
     {
         foreach (var rule in _rules)
         {
-            if (rule.Matches(f1, f2, f3, f4)) return rule;
+            if (rule.Matches(filterValues)) return rule;
         }
 
         return null;
