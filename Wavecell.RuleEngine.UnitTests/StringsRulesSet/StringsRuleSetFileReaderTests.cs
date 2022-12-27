@@ -1,8 +1,9 @@
 using FluentAssertions;
 using NSubstitute;
+using Wavecell.RuleEngine.StringsRuleSet;
 using Xunit;
 
-namespace Wavecell.RuleEngine.UnitTests;
+namespace Wavecell.RuleEngine.UnitTests.StringsRulesSet;
 
 public class StringsRuleSetFileReaderTests
 {
@@ -16,7 +17,7 @@ public class StringsRuleSetFileReaderTests
     }
     
     [Fact]
-    public void Load()
+    public void Read()
     {
         // Given
         _loader.Lines.Returns(new List<string>
@@ -29,7 +30,7 @@ public class StringsRuleSetFileReaderTests
         var actual = _reader.Read();
 
         // Then
-        var expected = new List<StringsRule>
+        var expected = new List<Rule<StringsFilterValues>>
         {
             new(1, 80, 8, new StringsFilterValues("AAA", null, "CCC", "DDD")),
             new(2, 10, 1, new StringsFilterValues(null, null, "AAA"))
@@ -47,6 +48,6 @@ public class StringsRuleSetFileReaderTests
         _reader.Read();
 
         // Then
-        _loader.Received(1).ValidateHeader(StringsRuleSetFileReader.ExpectedHeader);
+        _loader.Received(1).ValidateHeader("RuleId,Priority,Filter1,Filter2,Filter3,Filter4,OutputValue");
     }
 }

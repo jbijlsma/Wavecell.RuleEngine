@@ -1,5 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
+using Wavecell.RuleEngine.StringsRuleSet;
 
 namespace Wavecell.RuleEngine.Benchmarks;
 
@@ -8,10 +9,10 @@ namespace Wavecell.RuleEngine.Benchmarks;
 [RankColumn]
 public class StringsRuleEngineBenchmarks
 {
-    private static StringsRuleSetEngine? _largeSimulationEngine;
+    private static RuleSetEngine<StringsFilterValues>? _largeSimulationEngine;
     private static StringsFilterValues? _largeSimulationFilterValues;
     
-    private static StringsRuleSetEngine? _fileSimulationEngine;
+    private static RuleSetEngine<StringsFilterValues>? _fileSimulationEngine;
     private static StringsFilterValues? _fileSimulationFilterValues;
 
     static StringsRuleEngineBenchmarks()
@@ -32,7 +33,7 @@ public class StringsRuleEngineBenchmarks
         
         var allRules = nonMatchingRules.Concat(new [] { matchingRule });
         
-        _largeSimulationEngine = new StringsRuleSetEngine(allRules);
+        _largeSimulationEngine = new RuleSetEngine<StringsFilterValues>(allRules);
         
         _largeSimulationFilterValues = StringsFilterValues.Create("XXX");
     }
@@ -42,13 +43,14 @@ public class StringsRuleEngineBenchmarks
         var ruleFile = Path.Combine(Environment.CurrentDirectory, "StringsRuleSet.csv");
         var loader = new RuleSetFileLoader(ruleFile);
         var rules = new StringsRuleSetFileReader(loader).Read();
-        _fileSimulationEngine = new StringsRuleSetEngine(rules);
+        
+        _fileSimulationEngine = new RuleSetEngine<StringsFilterValues>(rules);
         _fileSimulationFilterValues = StringsFilterValues.Create("BBB");
     }
 
-    private static StringsRule CreateTestRule(ushort priority, StringsFilterValues filters)
+    private static Rule<StringsFilterValues> CreateTestRule(ushort priority, StringsFilterValues filters)
     {
-        return new StringsRule(1, priority, 10, filters);
+        return new Rule<StringsFilterValues>(1, priority, 10, filters);
     }
 
     [Benchmark]

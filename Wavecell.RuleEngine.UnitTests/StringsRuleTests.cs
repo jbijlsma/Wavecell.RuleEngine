@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Wavecell.RuleEngine.StringsRuleSet;
 using Xunit;
 
 namespace Wavecell.RuleEngine.UnitTests;
@@ -47,8 +48,8 @@ public class StringsRuleTests
         actual.Should().Be(true);
     }
 
-    private static StringsRule CreateRule(StringsFilterValues filterValues)
+    private static Rule<StringsFilterValues> CreateRule(StringsFilterValues filterValues)
     {
-        return new StringsRule(1, 10, 1, filterValues);
+        return new Rule<StringsFilterValues>(1, 10, 1, filterValues);
     }
 }
