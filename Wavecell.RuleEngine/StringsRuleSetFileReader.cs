@@ -1,26 +1,22 @@
 namespace Wavecell.RuleEngine;
 
-public class StringsRuleSetFileLoader
+public class StringsRuleSetFileReader
 {
-    private const string ExpectedHeader = "RuleId,Priority,Filter1,Filter2,Filter3,Filter4,OutputValue";
+    internal const string ExpectedHeader = "RuleId,Priority,Filter1,Filter2,Filter3,Filter4,OutputValue";
     
-    public IEnumerable<StringsRule> Load(string ruleFileFullPath)
+    private readonly IRuleSetFileLoader _loader;
+
+    public StringsRuleSetFileReader(IRuleSetFileLoader loader)
     {
-        using var sr = new StreamReader(ruleFileFullPath);
-            
-        var headerLine = sr.ReadLine()!;
-        if (headerLine != ExpectedHeader)
-        {
-            throw new ApplicationException($"Expected header {ExpectedHeader}, but found {headerLine}");
-        }
+        _loader = loader;
+    }
+    
+    public IEnumerable<StringsRule> Read()
+    {
+        _loader.Load();
+        _loader.ValidateHeader(ExpectedHeader);
 
-        var rules = new List<StringsRule>();
-        while (sr.ReadLine() is { } line)
-        {
-            rules.Add(CreateRule(line));
-        }
-
-        return rules;
+        return _loader.Lines.Select(CreateRule);
     }
 
     private static StringsRule CreateRule(string line)
