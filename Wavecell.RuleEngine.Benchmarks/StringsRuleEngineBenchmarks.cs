@@ -1,12 +1,13 @@
+using System.Diagnostics.CodeAnalysis;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using Wavecell.RuleEngine.StringsRuleSet;
 
 namespace Wavecell.RuleEngine.Benchmarks;
 
-[MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
 [RankColumn]
+[SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class StringsRuleEngineBenchmarks
 {
     private static RuleSetEngine<StringsFilterValues>? _largeSimulationEngine;
@@ -34,7 +35,6 @@ public class StringsRuleEngineBenchmarks
         var allRules = nonMatchingRules.Concat(new [] { matchingRule });
         
         _largeSimulationEngine = new RuleSetEngine<StringsFilterValues>(allRules);
-        
         _largeSimulationFilterValues = StringsFilterValues.Create("XXX");
     }
     
@@ -54,19 +54,13 @@ public class StringsRuleEngineBenchmarks
     }
 
     [Benchmark]
-#pragma warning disable CA1822
-    // Necessary for Benchmark .NET
     public void LargeSimulation_FindRule()
-#pragma warning restore CA1822
     {
         _largeSimulationEngine!.FindRule(_largeSimulationFilterValues!);
     }
     
     [Benchmark]
-#pragma warning disable CA1822
-    // Necessary for Benchmark .NET
     public void RuleFile_FindRule()
-#pragma warning restore CA1822
     {
         _fileSimulationEngine!.FindRule(_fileSimulationFilterValues!);
     }

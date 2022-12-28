@@ -5,4 +5,4 @@ using Wavecell.RuleEngine.Benchmarks;
 
 BenchmarkRunner.Run<StringsRuleEngineBenchmarks>();
 
-BenchmarkRunner.Run<MixedRuleEngineBenchmarks>();
+//BenchmarkRunner.Run<MixedRuleEngineBenchmarks>();
