@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Wavecell.RuleEngine.UnitTests;
 
-public class StringsRuleTests
+public class RuleTests
 {
     [Fact]
     public void Matches_MatchFound_Returns_True()
