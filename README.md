@@ -16,12 +16,19 @@ The StringsRuleEngineBenchmarks class defines the benchmarks for the ruleset in 
 RuleFile_FindRule(): uses the supplied ruleset file (renamed to StringsRuleSet.csv)  
 LargeSimulation_FindRule(): creates an custom ruleset with 1000 never matching rules and 1 matching (catch all) rule. This tests the worst case where for each record in the dataset 1001 rules would have to be checked
 
-The results on my system (Apple M1 Pro 32GB):
+The .NET 6 results on my system (Apple M1 Pro 32GB):
 
 |                   Method |      Mean |     Error |    StdDev | Rank |
 |------------------------- |----------:|----------:|----------:|-----:|
 |        RuleFile_FindRule |  1.663 us | 0.0028 us | 0.0022 us |    1 |
 | LargeSimulation_FindRule | 80.406 us | 0.2763 us | 0.2157 us |    2 |
+
+And after upgrading to .NET 7:
+
+|                   Method |      Mean |     Error |    StdDev | Rank |
+|------------------------- |----------:|----------:|----------:|-----:|
+|        RuleFile_FindRule |  1.050 us | 0.0017 us | 0.0016 us |    1 |
+| LargeSimulation_FindRule | 63.229 us | 0.2443 us | 0.2285 us |    2 |
 
 To run the benchmarks:
 
