@@ -1,3 +1,4 @@
+using System.Security.Authentication.ExtendedProtection;
 using FluentAssertions;
 using NSubstitute;
 using Wavecell.RuleEngine.StringsRuleSet;

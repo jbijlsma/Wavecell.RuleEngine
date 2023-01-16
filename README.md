@@ -37,3 +37,20 @@ cd ./Wavecell.RuleEngine.Benchmarks
 dotnet build -c Release
 dotnet ./bin/Release/net6.0/Wavecell.RuleEngine.Benchmarks.dll
 ```
+
+# K6 Load Testing
+
+Install k6: https://k6.io/docs/get-started/installation/
+
+Start Dnw.RuleEngine.Api:
+
+```shell
+cd ./Wavecell.RuleEngine.Api
+export ASPNETCORE_URLS=https://localhost:5001
+dotnet run -c Release --no-launch-profile
+```
+
+```shell
+cd ./Wavecell.RuleEngine.LoadTests
+k6 run rule_engine_loadtest.js
+```
