@@ -1,6 +1,6 @@
 namespace Wavecell.RuleEngine;
 
-public abstract class RuleSetFileReader<TFilterValues> where TFilterValues : IFilterValues<TFilterValues>
+public abstract class RuleSetFileReader<TFilterValues> where TFilterValues : IEquatable<TFilterValues>
 {
     private readonly IRuleSetFileLoader _loader;
     

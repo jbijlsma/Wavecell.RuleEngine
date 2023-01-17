@@ -2,13 +2,13 @@ using JetBrains.Annotations;
 
 namespace Wavecell.RuleEngine;
 
-public interface IRule<in TFilterValues> where TFilterValues : IFilterValues<TFilterValues>
+public interface IRule<out TFilterValues> where TFilterValues : IEquatable<TFilterValues>
 {
     ushort Priority { get; }
-    bool Matches(TFilterValues filterValues);
+    TFilterValues Filters { get; }
 }
 
-public class Rule<TFilterValues> : IRule<TFilterValues> where TFilterValues : IFilterValues<TFilterValues>
+public class Rule<TFilterValues> : IRule<TFilterValues> where TFilterValues : IEquatable<TFilterValues>
 {
     [UsedImplicitly] public int RuleId { get; }
     public ushort Priority { get; }
@@ -22,10 +22,5 @@ public class Rule<TFilterValues> : IRule<TFilterValues> where TFilterValues : IF
         OutputValue = outputValue;
 
         Filters = filters;
-    }
-
-    public bool Matches(TFilterValues filterValues)
-    {
-        return Filters.Matches(filterValues);
     }
 }

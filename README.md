@@ -30,12 +30,19 @@ And after upgrading to .NET 7:
 |        RuleFile_FindRule |  1.050 us | 0.0017 us | 0.0016 us |    1 |
 | LargeSimulation_FindRule | 63.229 us | 0.2443 us | 0.2285 us |    2 |
 
+After using dictionary:
+
+|                   Method |     Mean |    Error |   StdDev | Rank |
+|------------------------- |---------:|---------:|---------:|-----:|
+| LargeSimulation_FindRule | 25.71 ns | 0.097 ns | 0.081 ns |    1 |
+|        RuleFile_FindRule | 25.97 ns | 0.184 ns | 0.172 ns |    1 |
+
 To run the benchmarks:
 
 ```shell
 cd ./Wavecell.RuleEngine.Benchmarks
 dotnet build -c Release
-dotnet ./bin/Release/net6.0/Wavecell.RuleEngine.Benchmarks.dll
+dotnet ./bin/Release/net7.0/Wavecell.RuleEngine.Benchmarks.dll
 ```
 
 # K6 Load Testing

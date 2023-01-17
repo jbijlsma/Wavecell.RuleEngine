@@ -14,7 +14,7 @@ public class RuleTests
         var rule = CreateRule(filterValues);
 
         // When
-        var actual = rule.Matches(filterValues);
+        var actual = rule.Filters.Equals(filterValues);
 
         // Then
         actual.Should().Be(true);
@@ -28,7 +28,7 @@ public class RuleTests
         var rule = CreateRule(filterValues);
 
         // When
-        var actual = rule.Matches(StringsFilterValues.Create("BBB"));
+        var actual = rule.Filters.Equals(StringsFilterValues.Create("BBB"));
 
         // Then
         actual.Should().Be(false);
@@ -42,7 +42,7 @@ public class RuleTests
         var rule = CreateRule(filters);
 
         // When
-        var actual = rule.Matches(StringsFilterValues.Create("BBB"));
+        var actual = rule.Filters.Equals(StringsFilterValues.Create("BBB"));
 
         // Then
         actual.Should().Be(true);

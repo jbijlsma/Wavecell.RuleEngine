@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 
 namespace Wavecell.RuleEngine.StringsRuleSet;
 
-public class StringsFilterValues : IFilterValues<StringsFilterValues>
+public class StringsFilterValues : IEquatable<StringsFilterValues>
 {
     [UsedImplicitly] public string? Filter1 { get; }
     [UsedImplicitly] public string? Filter2 { get; }
@@ -17,18 +17,34 @@ public class StringsFilterValues : IFilterValues<StringsFilterValues>
         Filter4 = filter4;
     }
 
-    public bool Matches(StringsFilterValues filterValues)
-    {
-        if (Filter1 != null & Filter1 != filterValues.Filter1) return false;
-        if (Filter2 != null & Filter2 != filterValues.Filter2) return false;
-        if (Filter3 != null & Filter3 != filterValues.Filter3) return false;
-        if (Filter4 != null & Filter4 != filterValues.Filter4) return false;
-
-        return true;
-    }
-    
     public static StringsFilterValues Create(string? filterValue)
     {
         return new StringsFilterValues(filterValue, filterValue, filterValue, filterValue);
+    }
+
+    public bool Equals(StringsFilterValues? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        
+        if (Filter1 != null & Filter1 != other.Filter1) return false;
+        if (Filter2 != null & Filter2 != other.Filter2) return false;
+        if (Filter3 != null & Filter3 != other.Filter3) return false;
+        if (Filter4 != null & Filter4 != other.Filter4) return false;
+
+        return true;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((StringsFilterValues)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Filter1, Filter2, Filter3, Filter4);
     }
 }

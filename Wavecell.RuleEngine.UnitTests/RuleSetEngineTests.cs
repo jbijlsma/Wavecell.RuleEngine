@@ -1,4 +1,3 @@
-using System.Security.Authentication.ExtendedProtection;
 using FluentAssertions;
 using NSubstitute;
 using Wavecell.RuleEngine.StringsRuleSet;
@@ -14,10 +13,10 @@ public class RuleSetTests
         // Given
         var filters = StringsFilterValues.Create("AAA");
         
-        var nonMatchingRules = Enumerable.Range(0, 5).Select(_ => CreateNonMatchingRule(filters));
+        var nonMatchingRules = Enumerable.Range(0, 5).Select(_ => CreateNonMatchingRule());
 
         var matchingRule = Substitute.For<IRule<StringsFilterValues>>();
-        matchingRule.Matches(filters).Returns(true);
+        matchingRule.Filters.Returns(StringsFilterValues.Create("AAA"));
 
         var rules = nonMatchingRules.Concat(new[] { matchingRule });
         
@@ -34,21 +33,19 @@ public class RuleSetTests
     public void FindRule_MultipleMatchingRules_Returns_HighestPriority()
     {
         // Given
-        var filters = StringsFilterValues.Create("AAA");
+        var filterValues = new StringsFilterValues("AAA");
         
         var lowPriorityMatchingRule = Substitute.For<IRule<StringsFilterValues>>();
         lowPriorityMatchingRule.Priority.Returns((ushort)10);
-        lowPriorityMatchingRule.Matches(filters).Returns(true);
+        lowPriorityMatchingRule.Filters.Returns(StringsFilterValues.Create("AAA"));
         
         var highPriorityMatchingRule = Substitute.For<IRule<StringsFilterValues>>();
         highPriorityMatchingRule.Priority.Returns((ushort)20);
-        highPriorityMatchingRule.Matches(filters).Returns(true);
+        highPriorityMatchingRule.Filters.Returns(new StringsFilterValues("AAA"));
 
         var rules = new[] { lowPriorityMatchingRule, highPriorityMatchingRule };
         var engine = new RuleSetEngine<StringsFilterValues>(rules);
-
-        var filterValues = filters;
-
+        
         // When
         var actual = engine.FindRule(filterValues);
 
@@ -62,7 +59,7 @@ public class RuleSetTests
         // Given
         var filters = StringsFilterValues.Create("AAA"); 
 
-        var nonMatchingRules = Enumerable.Range(0, 5).Select(_ => CreateNonMatchingRule(filters));
+        var nonMatchingRules = Enumerable.Range(0, 5).Select(_ => CreateNonMatchingRule());
         
         var engine = new RuleSetEngine<StringsFilterValues>(nonMatchingRules);
 
@@ -75,10 +72,10 @@ public class RuleSetTests
         actual.Should().Be(null);
     }
 
-    private static IRule<StringsFilterValues> CreateNonMatchingRule(StringsFilterValues filterValues)
+    private static IRule<StringsFilterValues> CreateNonMatchingRule()
     {
         var rule = Substitute.For<IRule<StringsFilterValues>>();
-        rule.Matches(filterValues).Returns(false);
+        rule.Filters.Returns(StringsFilterValues.Create(Guid.NewGuid().ToString()));
         
         return rule;
     }

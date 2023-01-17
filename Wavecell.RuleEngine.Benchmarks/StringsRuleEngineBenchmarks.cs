@@ -25,9 +25,8 @@ public class StringsRuleEngineBenchmarks
     private static void CreateLargeSimulation()
     {
         const int numberOfNonMatchingRules = 1000;
-
-        var filters = StringsFilterValues.Create("AAA");
-        var nonMatchingRules = Enumerable.Range(0, numberOfNonMatchingRules).Select(_ => CreateTestRule(10, filters));
+        
+        var nonMatchingRules = Enumerable.Range(0, numberOfNonMatchingRules).Select(_ => CreateTestRule(10,  StringsFilterValues.Create(Guid.NewGuid().ToString())));
 
         var anyFilters = new StringsFilterValues();
         var matchingRule = CreateTestRule(0, anyFilters);

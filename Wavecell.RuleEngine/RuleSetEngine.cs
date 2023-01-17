@@ -1,22 +1,17 @@
 namespace Wavecell.RuleEngine;
 
 public class RuleSetEngine<TFilterValues>
-    where TFilterValues : IFilterValues<TFilterValues>
+    where TFilterValues : IEquatable<TFilterValues>
 {
-    private readonly IEnumerable<IRule<TFilterValues>> _rules;
+    private readonly Dictionary<TFilterValues, IRule<TFilterValues>> _rulesByFilterValuesHash;
 
     public RuleSetEngine(IEnumerable<IRule<TFilterValues>> rules)
     {
-        _rules = rules.OrderByDescending(rule => rule.Priority);
+        _rulesByFilterValuesHash = rules.ToDictionary(rule => rule.Filters, rule => rule);
     }
     
     public IRule<TFilterValues>? FindRule(TFilterValues filterValues)
     {
-        foreach (var rule in _rules)
-        {
-            if (rule.Matches(filterValues)) return rule;
-        }
-
-        return null;
+        return _rulesByFilterValuesHash.TryGetValue(filterValues, out var rule) ? rule : null;
     }
 }
