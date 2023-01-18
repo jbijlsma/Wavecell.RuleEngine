@@ -9,14 +9,14 @@ builder.Services.AddSingleton<RuleSetEngine<StringsFilterValues>>(_ =>
 {
     var ruleFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StringsRuleSet.csv");
     var rules = new StringsRuleSetFileReader(new RuleSetFileLoader(ruleFile)).Read();
-    return new RuleSetEngine<StringsFilterValues>(rules);
+    return new RuleSetEngine<StringsFilterValues>(rules, new RuleCache<StringsFilterValues>());
 });
 
 builder.Services.AddSingleton<RuleSetEngine<MixedFilterValues>>(_ =>
 {
     var ruleFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MixedRuleSet.csv");
     var rules = new MixedRuleSetFileReader(new RuleSetFileLoader(ruleFile)).Read();
-    return new RuleSetEngine<MixedFilterValues>(rules);
+    return new RuleSetEngine<MixedFilterValues>(rules, new RuleCache<MixedFilterValues>());
 });
 
 builder.Services.AddControllers();

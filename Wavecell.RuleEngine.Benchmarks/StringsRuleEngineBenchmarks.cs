@@ -34,7 +34,7 @@ public class StringsRuleEngineBenchmarks
         
         var allRules = nonMatchingRules.Concat(new [] { matchingRule });
         
-        _largeSimulationEngine = new RuleSetEngine<StringsFilterValues>(allRules);
+        _largeSimulationEngine = new RuleSetEngine<StringsFilterValues>(allRules, new RuleCache<StringsFilterValues>());
         _largeSimulationFilterValues = StringsFilterValues.Create("XXX");
     }
     
@@ -44,7 +44,7 @@ public class StringsRuleEngineBenchmarks
         var loader = new RuleSetFileLoader(ruleFile);
         var rules = new StringsRuleSetFileReader(loader).Read();
         
-        _fileSimulationEngine = new RuleSetEngine<StringsFilterValues>(rules);
+        _fileSimulationEngine = new RuleSetEngine<StringsFilterValues>(rules, new RuleCache<StringsFilterValues>());
         _fileSimulationFilterValues = StringsFilterValues.Create("BBB");
     }
 

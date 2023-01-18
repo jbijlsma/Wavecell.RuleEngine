@@ -51,6 +51,6 @@ dotnet run -c Release --no-launch-profile
 ```
 
 ```shell
-cd ./Wavecell.RuleEngine.LoadTests
+cd ./Wavecell.RuleEngine.Api.LoadTests
 k6 run rule_engine_loadtest.js
 ```
