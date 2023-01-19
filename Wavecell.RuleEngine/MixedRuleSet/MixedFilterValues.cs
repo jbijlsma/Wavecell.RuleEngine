@@ -14,6 +14,13 @@ public class MixedFilterValues : IFilterValues<MixedFilterValues>
         Filter2 = filter2;
         Filter3 = filter3;
     }
+    
+    public string GetCacheKey()
+    {
+        return $"{nameof(Filter1)}:{(Filter1.HasValue ? Filter1.ToString() : "<null>")}" +
+               $"&{nameof(Filter2)}:{(Filter2.HasValue ? Filter2.ToString() : "<null>")}" +
+               $"&{nameof(Filter3)}:{Filter3 ?? "<null>"}";
+    }
 
     public bool Matches(MixedFilterValues filterValues)
     {

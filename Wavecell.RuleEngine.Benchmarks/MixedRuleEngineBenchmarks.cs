@@ -34,7 +34,7 @@ public class MixedRuleEngineBenchmarks
         
         var allRules = nonMatchingRules.Concat(new [] { matchingRule });
         
-        _largeSimulationEngine = new RuleSetEngine<MixedFilterValues>(allRules);
+        _largeSimulationEngine = new RuleSetEngine<MixedFilterValues>(allRules, new RuleCache<MixedFilterValues>());
         
         _largeSimulationFilterValues = new MixedFilterValues(444, true, "XXX");
     }
@@ -45,7 +45,7 @@ public class MixedRuleEngineBenchmarks
         var loader = new RuleSetFileLoader(ruleFile);
         var rules = new MixedRuleSetFileReader(loader).Read();
         
-        _fileSimulationEngine = new RuleSetEngine<MixedFilterValues>(rules);
+        _fileSimulationEngine = new RuleSetEngine<MixedFilterValues>(rules, new RuleCache<MixedFilterValues>());
         _fileSimulationFilterValues = new MixedFilterValues(444, true, "XXX");
     }
 

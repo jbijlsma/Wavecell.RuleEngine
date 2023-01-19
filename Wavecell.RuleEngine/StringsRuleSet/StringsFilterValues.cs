@@ -17,6 +17,11 @@ public class StringsFilterValues : IFilterValues<StringsFilterValues>
         Filter4 = filter4;
     }
 
+    public string GetCacheKey()
+    {
+        return $"{nameof(Filter1)}:{Filter1 ?? "<null>"}&{nameof(Filter2)}:{Filter2 ?? "<null>"}&{nameof(Filter3)}:{Filter3 ?? "<null>"}&{nameof(Filter4)}:{Filter4 ?? "<null>"}";
+    }
+
     public bool Matches(StringsFilterValues filterValues)
     {
         if (Filter1 != null & Filter1 != filterValues.Filter1) return false;

@@ -7,6 +7,21 @@ namespace Wavecell.RuleEngine.UnitTests.StringsRulesSet;
 public class StringsFilterValuesTests
 {
     [Theory]
+    [InlineData("AAA", "BBB", "CCC", "DDD", "Filter1:AAA&Filter2:BBB&Filter3:CCC&Filter4:DDD")]
+    [InlineData("AAA", null, null, null, "Filter1:AAA&Filter2:<null>&Filter3:<null>&Filter4:<null>")]
+    public void GetCacheKey(string? filter1, string filter2, string filter3, string filter4, string expected)
+    {
+        // Given
+        var filterValues = new StringsFilterValues(filter1, filter2, filter3, filter4);
+
+        // When
+        var actual = filterValues.GetCacheKey();
+
+        // Then
+        Assert.Equal(expected, actual);
+    }
+    
+    [Theory]
     [InlineData("AAA", "BBB", "CCC", "DDD", true)]
     [InlineData("XXX", "BBB", "CCC", "DDD", false)]
     [InlineData("AAA", "XXX", "CCC", "DDD", false)]

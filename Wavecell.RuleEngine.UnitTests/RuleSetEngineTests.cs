@@ -19,14 +19,17 @@ public class RuleSetTests
         matchingRule.Matches(filters).Returns(true);
 
         var rules = nonMatchingRules.Concat(new[] { matchingRule });
+
+        var cache = Substitute.For<IRuleCache<StringsFilterValues>>();
         
-        var engine = new RuleSetEngine<StringsFilterValues>(rules);
+        var engine = new RuleSetEngine<StringsFilterValues>(rules, cache);
 
         // When
         var actual = engine.FindRule(filters);
 
         // Then
         actual.Should().Be(matchingRule);
+        cache.Received(1).Add(filters, actual);
     }
     
     [Fact]
@@ -44,7 +47,8 @@ public class RuleSetTests
         highPriorityMatchingRule.Matches(filters).Returns(true);
 
         var rules = new[] { lowPriorityMatchingRule, highPriorityMatchingRule };
-        var engine = new RuleSetEngine<StringsFilterValues>(rules);
+        var cache = Substitute.For<IRuleCache<StringsFilterValues>>();
+        var engine = new RuleSetEngine<StringsFilterValues>(rules, cache);
 
         var filterValues = filters;
 
@@ -53,6 +57,7 @@ public class RuleSetTests
 
         // Then
         actual.Should().Be(highPriorityMatchingRule);
+        cache.Received(1).Add(filterValues, actual);
     }
 
     [Fact]
@@ -63,7 +68,9 @@ public class RuleSetTests
 
         var nonMatchingRules = Enumerable.Range(0, 5).Select(_ => CreateNonMatchingRule(filters));
         
-        var engine = new RuleSetEngine<StringsFilterValues>(nonMatchingRules);
+        var cache = Substitute.For<IRuleCache<StringsFilterValues>>();
+        
+        var engine = new RuleSetEngine<StringsFilterValues>(nonMatchingRules, cache);
 
         var filterValues = filters;
 
@@ -72,6 +79,26 @@ public class RuleSetTests
 
         // Then
         actual.Should().Be(null);
+        cache.Received(1).Add(filterValues, actual);
+    }
+
+    [Fact]
+    public void FindRule_FoundInCache_Returns_CachedRule()
+    {
+        // Given
+        var filterValues = new StringsFilterValues();
+        
+        var cache = Substitute.For<IRuleCache<StringsFilterValues>>();
+        var cachedRule = Substitute.For<IRule<StringsFilterValues>>();
+        cache.TryGet(filterValues).Returns((true, cachedRule));
+        
+        var engine = new RuleSetEngine<StringsFilterValues>(Array.Empty<IRule<StringsFilterValues>>(), cache);
+
+        // When
+        var actual = engine.FindRule(filterValues);
+
+        // Then
+        Assert.Equal(cachedRule, actual);
     }
 
     private static IRule<StringsFilterValues> CreateNonMatchingRule(StringsFilterValues filterValues)
